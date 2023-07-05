@@ -1,0 +1,38 @@
+#! /usr/bin/bash
+
+# Este script pode ser utilizado para realizar o download de vídeos do youtube
+# @Argument @type {youtube-link}
+
+readonly NO_LINK_INFORMED="É necessário informar um link do youtube para realizar o download."
+readonly COMMAND_MODEL="'baixar [audio, video] [youtube-url]'"
+readonly NO_TYPE_INFORMED="É necessário informar o tipo do download."
+
+type=$1
+link=$2
+echo $link
+
+if [[ -n "$link" ]]; then
+
+	if [[ -n "$type" ]]; then
+		
+		if [[ $type == "video" ]]; then
+			yt-dlp -P "/home/metazod/Vídeos/Downloaded" --format "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]" "$link"
+			nautilus '/home/metazod/Vídeos/Downloaded'
+		fi
+		
+		if [[ $type == "audio" ]]; then
+			yt-dlp -P "/home/metazod/Música/Downloaded" --extract-audio --audio-format mp3 "$link"
+			nautilus '/home/metazod/Música/Downloaded'
+		fi
+	else
+		echo "$NO_TYPE_INFORMED"
+		printf '%.s─' $(seq 1 $(tput cols))
+		echo "O comando deve seguir o modelo: "
+		echo "$COMMAND_MODEL"
+	fi
+else
+	echo "$NO_LINK_INFORMED"
+	printf '%.s─' $(seq 1 $(tput cols))
+	echo "O comando deve seguir o modelo: "
+	echo "$COMMAND_MODEL"
+fi
