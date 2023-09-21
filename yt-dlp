@@ -10,19 +10,20 @@ readonly NO_TYPE_INFORMED="É necessário informar o tipo do download."
 type=$1
 link=$2
 echo $link
+filenameStr="%(title)s.%(ext)s"
 
 if [[ -n "$link" ]]; then
 
 	if [[ -n "$type" ]]; then
 		
 		if [[ $type == "video" ]]; then
-			yt-dlp -P "/home/metazod/Vídeos/Downloaded" --format "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]" "$link"
-			nautilus '/home/metazod/Vídeos/Downloaded'
+			yt-dlp -o $filenameStr -P "$HOME/Videos/Downloaded" -f mp4 "$link"
+			xdg-open "$HOME/Videos/Downloaded"
 		fi
 		
 		if [[ $type == "audio" ]]; then
-			yt-dlp -P "/home/metazod/Música/Downloaded" --extract-audio --audio-format mp3 "$link"
-			nautilus '/home/metazod/Música/Downloaded'
+			yt-dlp -P "$HOME/Music/Downloaded" --extract-audio --audio-format mp3 "$link"
+			xgd-open "$HOME/Music/Downloaded"
 		fi
 	else
 		echo "$NO_TYPE_INFORMED"
