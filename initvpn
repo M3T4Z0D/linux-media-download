@@ -1,0 +1,18 @@
+#! /bin/bash
+
+# Este script facilita a conexão e navegação entre as VPNs do Detran
+# @Argument @vpn
+
+readonly COMMAND_MODEL="'initvpn [1 ou 2]'"
+
+# Verifique se foi fornecido um parâmetro
+if [ $# -eq 1 ]; then
+  argument="200.199.218.188:4433"
+elif [$# -eq 2]; then
+  argument="200.183.148.194:4433"
+fi
+
+dns="detran.ms" 
+link=$argument
+
+netExtender -u $DETRAN_USER -p $DETRAN_PASSWORD -d $dns $link
